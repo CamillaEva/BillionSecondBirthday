@@ -1,0 +1,168 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <style>
+        body{
+            background-color: rgb(209, 111, 149);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        } 
+
+        .button {
+            color: rgb(218, 15, 116); *
+            background-color: pink;
+            border-color: hotpink;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        button:hover{
+            background-color: rgb(229, 130, 146);
+        }
+
+        .input-box {
+            color: rgb(218, 15, 116); *
+            background-color: pink;
+            border-color: hotpink;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: 
+            invert(18%) 
+            sepia(95%) 
+            saturate(5200%) 
+            hue-rotate(320deg) 
+            brightness(80%) 
+            contrast(105%);
+            cursor: pointer;
+        }
+
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            filter: 
+            invert(18%) 
+            sepia(95%) 
+            saturate(5200%) 
+            hue-rotate(320deg) 
+            brightness(80%) 
+            contrast(105%);
+            cursor: pointer;
+        }
+
+          .outer-container {
+            position: absolute;
+            color: rgb(218, 15, 116);
+            background-color: pink;
+            width: 600px;
+            max-width: 90%;
+            padding: 50px;
+            border-radius: 100px;
+            text-align: center;
+            border-style: solid;
+            border-color: rgb(233, 19, 126);
+            border-width: 5px;
+        }
+
+        .billion {
+            font-size: 4rem;
+            font-weight: 900;
+        }
+
+        
+    </style>
+
+    <title>One Billion Seconds</title>
+</head>
+<body>
+
+    <div class="outer-container"> 
+        <h1> FIND OUT WHEN YOU'RE </h1>
+        <h1 class="Billion"> 1.000.000.000 </h1>
+        <h1> SECONDS OLD! </h1>
+        <h2> Enter your birthdate and birthtime here,</h2>
+        <h2> and let's find out!</h2>
+        <label  for="date">Birth Date: </label>
+        <input class="input-box" type="date" id="date" name="date">
+        <label  for="time">Birth Time: </label>
+        <input class="input-box" type="time" id="time" name="time">
+        <button class ="button" id="confettiButton" onclick="checkDateAndTime()">submit</button>
+
+        <p>you were born the: 
+            <span id="birthDateTime"></span>
+        </p>
+           
+        <p>so your billionth second birthday is the: 
+            <span id="oneBillionSeconds"></span>
+        </p>
+
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+
+        const button = document.getElementById('confettiButton');
+         
+        button.addEventListener('click', () => {
+            const duration = 3 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = {
+                startVelocity: 35,
+                spread: 360,
+                ticks: 120,
+                zIndex: 1000
+            };
+
+            const interval = setInterval(() => {
+                const timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0){
+                    return clearInterval(interval);
+                };
+
+                for (const i = 0; i < 3; i++){
+                    confetti(Object.assign({}, defaults, {
+                        particleCount: 25,
+                        origin: {
+                            x: Math.random(),
+                            y: Math.random() * 0.2
+                        }
+                    }));
+                }
+            
+             }, 150);
+        });
+
+
+        function checkDateAndTime() {
+            const birthDate = document.getElementById("date").value;
+            const birthTime = document.getElementById("time").value;
+
+            const birthDateTime = new Date(birthDate + "T" + birthTime);
+
+            const span = document.getElementById("birthDateTime");
+
+            span.textContent = birthDateTime.toLocaleString('da-dk');
+
+            const oneBillionSeconds = 1000000000 * 1000;
+
+            const billionSecondBirthday = new Date(birthDateTime.getTime() + oneBillionSeconds);
+
+            const span2 = document.getElementById("oneBillionSeconds");
+
+            span2.textContent = billionSecondBirthday.toLocaleString('da-dk');
+            
+           
+        }
+
+    </script>
+
+    
+</body>
+</html>
